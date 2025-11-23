@@ -66,11 +66,13 @@
       tbl <- do.call(rbind, BM_list)
       rownames(tbl) <- names(BM_list)
 
-      tbl <-
-        tbl %>%
-        as.data.frame(.) %>%
-        add_column(.name_repair = c("minimal")) %>%
-        rownames_to_column("identifier")
+      # ensure unique names (again, just in case) and convert to tibble safely
+      colnames(tbl) <- make.unique(colnames(tbl), sep = "_")
+      tbl <- tibble::as_tibble(tbl, .name_repair = "unique")
+      
+      # avoid duplicate 'identifier' then add it from rownames
+      if ("identifier" %in% names(tbl)) tbl$identifier <- NULL
+      tbl <- tibble::rownames_to_column(tbl, var = "identifier")
 
 
 
