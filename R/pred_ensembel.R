@@ -115,7 +115,7 @@
                ncross = 2,
                repeats = 2,
                verboseIter = TRUE,
-               plots = TRUE,
+               plots = FALSE,
                filename = "plots.pdf") {
         PPI <- NULL
         . <- NULL
@@ -371,8 +371,8 @@
             as.data.frame(.) %>%
             rownames_to_column("model")
           colnames(pr.auc.list)[2] <- "auc"
-          pr.auc.list$auc <- round(pr.auc.list$au, 2)
-
+          pr.auc.list$auc <- round(pr.auc.list$auc, 2)   # was $au
+          
 
 
           mytheme <- gridExtra::ttheme_default(
@@ -414,12 +414,10 @@
               theme(axis.text = element_text(size = 12, color = "black")) +
               xlab("Recall") +
               ylab("Percision") +
-              annotation_custom(gridExtra::tableGrob(pr.auc.list,
-                                                     rows = NULL,
-                                                     theme = mytheme
-              ),
-              xmin = unit(0.9, "npc"),
-              xmax = unit(0.9, "npc"), ymin = 0.22, ymax = 0.22
+              annotation_custom(
+                gridExtra::tableGrob(pr.auc.list, rows = NULL, theme = mytheme),
+                xmin = 0.90, xmax = 0.90,   # was unit(0.9, "npc")
+                ymin = 0.22, ymax = 0.22
               )
           }
 
@@ -472,8 +470,8 @@
             as.data.frame(.) %>%
             rownames_to_column("model")
           colnames(auc.list)[2] <- "auc"
-          auc.list$auc <- round(auc.list$au, 2)
-
+          auc.list$auc <- round(auc.list$auc, 2)         # was $au
+          
 
 
           Roc_Object <- list()
@@ -504,12 +502,10 @@
             theme(axis.text = element_text(size = 12, color = "black")) +
             xlab("False Positive Rate (1-Specificity)") +
             ylab("True Positive Rate (Sensitivity)") +
-            annotation_custom(gridExtra::tableGrob(auc.list,
-                                                   rows = NULL,
-                                                   theme = mytheme
-            ),
-            xmin = unit(0.8, "npc"),
-            xmax = unit(0.8, "npc"), ymin = 0.22, ymax = 0.22
+            annotation_custom(
+              gridExtra::tableGrob(pr.auc.list, rows = NULL, theme = mytheme),
+              xmin = 0.90, xmax = 0.90,   # was unit(0.9, "npc")
+              ymin = 0.22, ymax = 0.22
             )
 
 
