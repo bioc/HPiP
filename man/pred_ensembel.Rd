@@ -12,7 +12,7 @@ pred_ensembel(
   ncross = 2,
   repeats = 2,
   verboseIter = TRUE,
-  plots = TRUE,
+  plots = FALSE,
   filename = "plots.pdf"
 )
 }
